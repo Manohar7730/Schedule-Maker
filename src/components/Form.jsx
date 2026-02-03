@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function Form({ schedule, handleChange }) {
+export default function Form({ schedule, handleChange, handleSubmit }) {
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="schedule">Title: </label>
         <input
           id="schedule"

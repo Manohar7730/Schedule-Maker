@@ -24,11 +24,12 @@ export default function App() {
     if (schedule.title === "" || schedule.description === "") {
       setSchedule({ title: "", description: "", checked: false });
 
-      return window.alert("please add all fields");
+      alert("Please add all fields");
+      return;
     }
 
-    setSchedules((prevTasks) => [
-      ...prevTasks,
+    setSchedules((prevSchedules) => [
+      ...prevSchedules,
       { ...schedule, id: nextId.current },
     ]);
 
@@ -38,10 +39,18 @@ export default function App() {
   };
 
   const handleCheck = (id) => {
-    setSchedules((prevTasks) =>
-      prevTasks.map((t) => (t.id === id ? { ...t, checked: !t.checked } : t)),
+    setSchedules((prevSchedules) =>
+      prevSchedules.map((t) =>
+        t.id === id ? { ...t, checked: !t.checked } : t,
+      ),
     );
   };
+  const handleDelete = (id) => {
+    setSchedules((prevSchedules) =>
+      prevSchedules.filter((schedule) => schedule.id !== id),
+    );
+  };
+
   return (
     <div>
       <Form
@@ -49,7 +58,11 @@ export default function App() {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
       />
-      <List schedules={schedules} handleCheck={handleCheck} />
+      <List
+        schedules={schedules}
+        handleCheck={handleCheck}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 }

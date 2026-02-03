@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Schedule({ schedule, handleCheck }) {
+export default function Schedule({ schedule, handleCheck, handleDelete }) {
   return (
     <div>
       <h2
@@ -16,6 +16,7 @@ export default function Schedule({ schedule, handleCheck }) {
         checked={schedule.checked}
         onChange={() => handleCheck(schedule.id)}
       />
+      <button onClick={() => handleDelete(schedule.id)}>❌ </button>
     </div>
   );
 }

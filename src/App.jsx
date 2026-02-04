@@ -10,7 +10,12 @@ export default function App() {
     checked: false,
   });
   const [schedules, setSchedules] = useLocalStorage("schedules", []);
-  const nextId = useRef(1);
+  const [hasValidationError, setHasValidationError] = useState(false);
+  const [hasDuplicateError, setHasDuplicateError] = useState(false);
+
+  const nextId = useRef(
+    schedules.length > 0 ? Math.max(...schedules.map((s) => s.id)) + 1 : 1,
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,20 +27,30 @@ export default function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (schedule.title === "" || schedule.description === "") {
-      setSchedule({ title: "", description: "", checked: false });
+    const title = schedule.title.trim();
+    const description = schedule.description.trim();
 
-      alert("Please add all fields");
+    setHasValidationError(false);
+    setHasDuplicateError(false);
+
+    if (!title || !description) {
+      setHasValidationError(true);
       return;
     }
 
-    setSchedules((prevSchedules) => [
-      ...prevSchedules,
-      { ...schedule, id: nextId.current },
+    const exists = schedules.some((s) => s.title === title);
+
+    if (exists) {
+      setHasDuplicateError(true);
+      return;
+    }
+
+    setSchedules((prev) => [
+      ...prev,
+      { id: nextId.current, title, description, checked: false },
     ]);
 
     nextId.current++;
-
     setSchedule({ title: "", description: "", checked: false });
   };
 
@@ -58,7 +73,10 @@ export default function App() {
         schedule={schedule}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        hasValidationError={hasValidationError}
+        hasDuplicateError={hasDuplicateError}
       />
+
       <List
         schedules={schedules}
         handleCheck={handleCheck}

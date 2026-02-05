@@ -2,21 +2,25 @@ import React from "react";
 
 export default function Schedule({ schedule, handleCheck, handleDelete }) {
   return (
-    <div>
-      <h2
-        style={{
-          textDecoration: schedule.checked ? "line-through" : "none",
-        }}
-      >
-        {schedule.title}
-      </h2>
-      <p>Description: {schedule.description}</p>
-      <input
-        type="checkbox"
-        checked={schedule.checked}
-        onChange={() => handleCheck(schedule.id)}
-      />
-      <button onClick={() => handleDelete(schedule.id)}>❌ </button>
-    </div>
+    <>
+      <div className={`item-content ${schedule.checked ? "check-done" : ""}`}>
+        <h2>{schedule.title}</h2>
+        <p>Description: {schedule.description}</p>
+      </div>
+      <div className="item-controls">
+        <input
+          type="checkbox"
+          checked={schedule.checked}
+          onChange={() => handleCheck(schedule.id)}
+          aria-label="Mark schedule as complete"
+        />
+        <button
+          onClick={() => handleDelete(schedule.id)}
+          aria-label="Delete schedule"
+        >
+          ❌{" "}
+        </button>
+      </div>
+    </>
   );
 }

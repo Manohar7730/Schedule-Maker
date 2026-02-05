@@ -7,9 +7,9 @@ export default function List({ schedules, handleCheck, handleDelete }) {
   }
 
   return (
-    <ol>
+    <ol className="list">
       {schedules.map((schedule) => (
-        <li key={schedule.id}>
+        <li key={schedule.id} className="list-item">
           <Schedule
             schedule={schedule}
             handleCheck={handleCheck}

@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import Form from "./components/Form";
 import List from "./components/List";
 import useLocalStorage from "./hooks/useLocalStorage";
+import "./App.css";
 
 export default function App() {
   const [schedule, setSchedule] = useState({
@@ -68,7 +69,7 @@ export default function App() {
   };
 
   return (
-    <div>
+    <div className="app-container">
       <Form
         schedule={schedule}
         handleChange={handleChange}
